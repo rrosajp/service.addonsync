@@ -11,6 +11,7 @@ SPDX-License-Identifier: MPL-2.0
 See LICENSES/MPL-2.0.txt for more information.
 """
 
+
 from __future__ import absolute_import
 import json
 import xbmc
@@ -86,14 +87,12 @@ if __name__ == "__main__":
         log(f"AddonFilter: Detected Addon: {addon_name} ({addon_item['name']})")
         addons[addon_item["name"]] = addon_name
 
-      if len(addons) < 1:
+      if not addons:
         log("AddonFilter: No Addons installed")
         xbmcgui.Dialog().ok(ADDON.getLocalizedString(32001),
                             ADDON.getLocalizedString(32011))
       else:
-        # Get the names of the addons and order them
-        ADDON_NAMES = list(addons.keys())
-        ADDON_NAMES.sort()
+        ADDON_NAMES = sorted(addons.keys())
         SELECTION = None
         try:
           SELECTION = xbmcgui.Dialog().multiselect(
