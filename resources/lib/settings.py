@@ -38,9 +38,7 @@ def dir_exists(dir_path):
 
   # The xbmcvfs exists interface require that directories end in a slash
   if (not dir_path.endswith("/")) and (not dir_path.endswith("\\")):
-    dir_sep = "/"
-    if "\\" in dir_path:
-      dir_sep = "\\"
+    dir_sep = "\\" if "\\" in dir_path else "/"
     dir_path = f"{dir_path}{dir_sep}"
   return xbmcvfs.exists(dir_path)
 
@@ -124,9 +122,7 @@ class Settings:
   def is_master():
     """Check whether we are running as a Master or Slave instance."""
     # Safer to check for slave type, as master will not overwrite
-    if int(ADDON.getSetting("installationType")) == 1:
-      return False
-    return True
+    return int(ADDON.getSetting("installationType")) != 1
 
   @staticmethod
   def is_run_at_launch():

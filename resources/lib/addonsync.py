@@ -11,6 +11,7 @@ SPDX-License-Identifier: MPL-2.0
 See LICENSES/MPL-2.0.txt for more information.
 """
 
+
 from __future__ import annotations, generator_stop
 import xbmcgui
 from xbmcaddon import Addon
@@ -35,10 +36,7 @@ if __name__ == "__main__":
     False
     )
 
-  COMPLETED = ADDONSYNC.start_sync()
-
-  # Only show the complete message if we have not shown an error
-  if COMPLETED:
+  if COMPLETED := ADDONSYNC.start_sync():
     xbmcgui.Dialog().notification(
       ADDON.getLocalizedString(32001),
       ADDON.getLocalizedString(32020),

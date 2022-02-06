@@ -113,11 +113,10 @@ class AddonData:
 
       # If there are no settings available then we have it installed
       # but no configuration available
-      if settings_dir in [None, ""]:
+      if settings_dir is None or settings_dir == "":
         addon_details[addon_name] = None
       else:
-        addon_detail = {}
-        addon_detail["dir"] = settings_dir
+        addon_detail = {'dir': settings_dir}
         # Generate the hash
         hashsum = Hash()
         hash_value = hashsum.get_dir_hash(settings_dir)
@@ -315,11 +314,12 @@ class AddonData:
           )
 
       for element_item in hash_record.findall("addon"):
-        hash_details = {}
         addon_name = element_item.attrib["name"]
-        hash_details['name'] = addon_name
-        hash_details["version"] = element_item.attrib["version"]
-        hash_details[hash] = element_item.text
+        hash_details = {
+            'name': addon_name,
+            'version': element_item.attrib["version"],
+            hash: element_item.text,
+        }
         log(
             f"AddonData: Processing entry {hash_details['name']} "
             f"({hash_details['version']}) with hash {hash_details[hash]}"
@@ -500,7 +500,7 @@ class AddonData:
     monitor = xbmc.Monitor()
     max_wait_time = 10
     while max_wait_time > 0:
-      max_wait_time = max_wait_time - 1
+      max_wait_time -= 1
       if monitor.waitForAbort(1):
         # Abort was requested while waiting
         max_wait_time = 0
